@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 st.title('🦜🔗 Hawaar-al-Zaki')
 
 from langchain.document_loaders import DirectoryLoader
@@ -16,21 +17,10 @@ from langchain.prompts import PromptTemplate
 from langchain.llms import HuggingFaceHub
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
-# Define function to initialize embeddings
-@st.cache
-def initialize_embeddings():
-    return HuggingFaceInstructEmbeddings()
 
-# Define function to load FAISS vector store
-@st.cache
-def load_faiss_vector_store():
-    embeddings = initialize_embeddings()
-    return FAISS.load_local("db", embeddings)
+embeddings = HuggingFaceInstructEmbeddings()
+db = FAISS.load_local("db", embeddings)
 
-# Load FAISS vector store
-db = load_faiss_vector_store()
-
-# Set Hugging Face Hub API token
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 repo_id = "mistralai/Mistral-7B-Instruct-v0.1"
 #repo_id = "mlabonne/NeuralMonarch-7B"
